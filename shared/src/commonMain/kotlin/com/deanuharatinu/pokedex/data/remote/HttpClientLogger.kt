@@ -1,4 +1,4 @@
-package com.deanuharatinu.pokedex.data
+package com.deanuharatinu.pokedex.data.remote
 
 import com.deanuharatinu.pokedex.platform.Logger
 

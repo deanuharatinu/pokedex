@@ -1,4 +1,4 @@
-package com.deanuharatinu.pokedex.data
+package com.deanuharatinu.pokedex.data.remote
 
 import com.deanuharatinu.pokedex.data.model.PokemonListResponse
 import io.ktor.client.*
@@ -6,7 +6,6 @@ import io.ktor.client.call.*
 import io.ktor.client.plugins.contentnegotiation.*
 import io.ktor.client.plugins.logging.*
 import io.ktor.client.request.*
-import io.ktor.client.statement.*
 import io.ktor.serialization.kotlinx.json.*
 import kotlinx.serialization.json.Json
 import kotlin.native.concurrent.ThreadLocal
@@ -36,8 +35,18 @@ object PokedexAPI {
   }
 
   suspend fun fetchPokemonList(
-    page: Int
-  ): PokemonListResponse = client.get(POKEDEX_BASE_URL + POKEMON + page.toFetchPokemonUrl()).body()
+    page: Int,
+    onSuccess: (PokemonListResponse) -> Unit,
+    onError: () -> Unit,
+  ) {
+    val response = client.get(POKEDEX_BASE_URL + POKEMON + page.toFetchPokemonUrl())
+    if (response.status.value in 200..209) {
+      val pokemonListResponse: PokemonListResponse = response.body()
+      onSuccess(pokemonListResponse)
+    } else {
+      onError.invoke()
+    }
+  }
 
   private fun Int.toFetchPokemonUrl(): String {
     val limit = PAGING_SIZE.toString()

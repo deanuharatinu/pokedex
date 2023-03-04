@@ -31,11 +31,13 @@ kotlin {
                 implementation("io.ktor:ktor-client-content-negotiation:2.2.4")
                 implementation("io.ktor:ktor-serialization-kotlinx-json:2.2.4")
                 implementation("io.ktor:ktor-client-logging:2.2.4")
+                implementation("io.insert-koin:koin-core:${rootProject.extra["koinVersion"]}")
             }
         }
         val commonTest by getting {
             dependencies {
                 implementation(kotlin("test"))
+                implementation("io.insert-koin:koin-test:${rootProject.extra["koinVersion"]}")
             }
         }
         val androidMain by getting {
