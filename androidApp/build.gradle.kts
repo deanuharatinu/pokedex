@@ -44,10 +44,14 @@ dependencies {
     implementation("androidx.compose.ui:ui-tooling:1.3.1")
     implementation("androidx.compose.ui:ui-tooling-preview:1.3.1")
     implementation("androidx.compose.foundation:foundation:1.3.1")
+    implementation("androidx.compose.runtime:runtime:1.3.1")
     implementation("androidx.compose.material:material:1.3.1")
     implementation("androidx.activity:activity-compose:1.6.1")
 
     // Koin
     implementation("io.insert-koin:koin-android:${rootProject.ext["koinVersion"]}")
     implementation("io.insert-koin:koin-androidx-compose:${rootProject.ext["koinVersion"]}")
+
+    // Koil
+    implementation("io.coil-kt:coil-compose:2.2.2")
 }

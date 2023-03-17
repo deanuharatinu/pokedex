@@ -1,7 +1,10 @@
 package com.deanuharatinu.pokedex
 
 import com.deanuharatinu.pokedex.data.RepositoryCommon
-import com.deanuharatinu.pokedex.data.remote.PokedexAPI
+import com.deanuharatinu.pokedex.data.RepositoryCommonImpl
+import com.deanuharatinu.pokedex.data.remote.ApiService
+import com.deanuharatinu.pokedex.data.remote.RemoteDataSource
+import com.deanuharatinu.pokedex.data.remote.RemoteDataSourceImpl
 import com.deanuharatinu.pokedex.presentation.HomeViewModel
 import org.koin.core.KoinApplication
 import org.koin.core.context.startKoin
@@ -10,10 +13,11 @@ import org.koin.dsl.module
 
 object Modules {
   val core = module {
-    factory { PokedexAPI }
+    single { ApiService }
+    single<RemoteDataSource> { RemoteDataSourceImpl(get()) }
   }
   val repositories = module {
-    factory { RepositoryCommon(get()) }
+    single<RepositoryCommon> { RepositoryCommonImpl(get()) }
   }
   val viewModels = module {
     factory { HomeViewModel(get()) }
