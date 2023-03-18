@@ -1,6 +1,3 @@
-// Version
-val koinVersion by extra("3.3.0")
-
 plugins {
   id("com.android.application").version("7.4.1").apply(false)
   id("com.android.library").version("7.4.1").apply(false)

@@ -34,25 +34,21 @@ kotlin {
         implementation("io.ktor:ktor-client-content-negotiation:2.2.4")
         implementation("io.ktor:ktor-serialization-kotlinx-json:2.2.4")
         implementation("io.ktor:ktor-client-logging:2.2.4")
-        implementation("io.insert-koin:koin-core:${rootProject.extra["koinVersion"]}")
 
-        implementation("dev.icerock.moko:mvvm-core:$mokoMvvmVersion")
-        implementation("dev.icerock.moko:mvvm-flow:$mokoMvvmVersion")
-
-        implementation("io.github.kuuuurt:multiplatform-paging:$kmmPagingVersion")
+        implementation(Koin.core)
+        implementation(Deps.multiplatformPaging)
       }
     }
     val commonTest by getting {
       dependencies {
         implementation(kotlin("test"))
-        implementation("io.insert-koin:koin-test:${rootProject.extra["koinVersion"]}")
+        implementation(Koin.test)
       }
     }
     val androidMain by getting {
       dependencies {
         implementation("io.ktor:ktor-client-android:2.2.4")
         implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1")
-        implementation("dev.icerock.moko:mvvm-flow-compose:$mokoMvvmVersion")
       }
     }
     val androidUnitTest by getting
@@ -71,7 +67,7 @@ kotlin {
             strictly("1.6.3-native-mt")
           }
         }
-        implementation("io.github.kuuuurt:multiplatform-paging:$kmmPagingVersion")
+        implementation(Deps.multiplatformPaging)
       }
     }
     val iosX64Test by getting
@@ -88,9 +84,8 @@ kotlin {
 
 android {
   namespace = "com.deanuharatinu.pokedex"
-  compileSdk = 33
+  compileSdk = AndroidSdk.compile
   defaultConfig {
-    minSdk = 24
-    targetSdk = 33
+    minSdk = AndroidSdk.min
   }
 }

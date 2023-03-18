@@ -4,4 +4,4 @@ const val PARAM = "?"
 const val SEPARATOR = "&"
 const val OFFSET = "offset"
 const val LIMIT = "limit"
-const val PAGING_SIZE = 10
+const val PAGING_SIZE = 20
