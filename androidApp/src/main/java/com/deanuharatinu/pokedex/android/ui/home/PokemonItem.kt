@@ -54,6 +54,7 @@ fun PokemonItem(
           model = ImageRequest.Builder(LocalContext.current)
             .data(pokemonDetail.imageUrl)
             .crossfade(true)
+            .memoryCacheKey(pokemonDetail.imageUrl)
             .build(),
           contentDescription = pokemonDetail.name,
           contentScale = ContentScale.Crop,

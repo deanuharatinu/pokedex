@@ -5,5 +5,5 @@ import com.deanuharatinu.pokedex.util.CommonFlow
 import com.kuuurt.paging.multiplatform.PagingData
 
 interface RepositoryCommon {
-  val fetchPokemonList: CommonFlow<PagingData<PokemonDetail>>
+  val getPokemonList: CommonFlow<PagingData<PokemonDetail>>
 }

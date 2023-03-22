@@ -1,6 +1,8 @@
 package com.deanuharatinu.pokedex.data
 
 import PAGING_SIZE
+import com.deanuharatinu.pokedex.data.local.LocalDataSource
+import com.deanuharatinu.pokedex.data.model.PokemonNameResponse
 import com.deanuharatinu.pokedex.data.remote.RemoteDataSource
 import com.deanuharatinu.pokedex.domain.PokemonDetail
 import com.deanuharatinu.pokedex.domain.asDomain
@@ -12,23 +14,36 @@ import com.kuuurt.paging.multiplatform.PagingData
 import com.kuuurt.paging.multiplatform.PagingResult
 import com.kuuurt.paging.multiplatform.helpers.cachedIn
 import kotlinx.coroutines.MainScope
+import org.mobilenativefoundation.store.store5.Fetcher
+import org.mobilenativefoundation.store.store5.StoreBuilder
+import org.mobilenativefoundation.store.store5.impl.extensions.get
+import kotlin.coroutines.CoroutineContext
 
 class RepositoryCommonImpl(
   private val remoteDataSource: RemoteDataSource,
+  private val localDataSource: LocalDataSource,
+  private val scope: CoroutineContext,
 ) : RepositoryCommon {
-  private val scope = MainScope()
+  val newScope = MainScope()
   private val pagingConfig = PagingConfig(pageSize = PAGING_SIZE, enablePlaceholders = false)
 
+  private val store = StoreBuilder
+    .from<Int, List<PokemonNameResponse>, List<PokemonNameResponse>>(
+      fetcher = Fetcher.of { page: Int ->
+        remoteDataSource.fetchPokemonListFlow(page).results
+      }
+    )
+    .build()
+
   val pokemonPager = Pager(
-    clientScope = scope,
+    clientScope = newScope,
     config = pagingConfig,
     initialKey = 1,
     getItems = { currentKey, _ ->
-      val pokemonResponse = remoteDataSource.fetchPokemonList(currentKey).getOrNull()
-      val pokemonAsDomain = pokemonResponse?.results?.map { it.asDomain() }.orEmpty()
+      val pokemonDetail = store.get(currentKey).map { it.asDomain() }
 
       PagingResult(
-        items = pokemonAsDomain,
+        items = pokemonDetail,
         currentKey = currentKey,
         prevKey = { null },
         nextKey = { currentKey + 1 }
@@ -36,8 +51,8 @@ class RepositoryCommonImpl(
     }
   )
 
-  override val fetchPokemonList: CommonFlow<PagingData<PokemonDetail>>
+  override val getPokemonList: CommonFlow<PagingData<PokemonDetail>>
     get() = pokemonPager.pagingData
-      .cachedIn(scope)
+      .cachedIn(newScope)
       .asCommonFlow()
 }

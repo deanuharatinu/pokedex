@@ -5,5 +5,5 @@ import com.deanuharatinu.pokedex.data.RepositoryCommon
 class HomeViewModel(
   repository: RepositoryCommon
 ) : BaseViewModel() {
-  val pokemonList = repository.fetchPokemonList
+  val pokemonList = repository.getPokemonList
 }

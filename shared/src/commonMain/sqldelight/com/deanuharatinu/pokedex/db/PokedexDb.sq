@@ -1,0 +1,12 @@
+CREATE TABLE PokedexDb (
+id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+name TEXT NOT NULL,
+imageUrl TEXT NOT NULL
+);
+
+selectAll:
+SELECT * FROM PokedexDb;
+
+insertPokemon:
+INSERT OR IGNORE INTO PokedexDb(name, imageUrl)
+VALUES (?,?);

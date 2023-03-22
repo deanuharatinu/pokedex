@@ -47,8 +47,6 @@ dependencies {
   implementation("androidx.compose.material:material:1.3.1")
   implementation("androidx.activity:activity-compose:1.6.1")
 
-  implementation(Compose.paging)
-
   with(Koin) {
     implementation(core)
     implementation(android)
@@ -56,7 +54,11 @@ dependencies {
   }
 
   implementation(Deps.multiplatformPaging)
-  implementation(Compose.coilCompose)
+
+  with(Compose) {
+    implementation(paging)
+    implementation(coilCompose)
+  }
 
   implementation(project(":shared"))
 }

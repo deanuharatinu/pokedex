@@ -27,4 +27,11 @@ class RemoteDataSourceImpl(
       Result.failure(response.body())
     }
   }
+
+  override suspend fun fetchPokemonListFlow(page: Int): PokemonListResponse {
+    return apiService.client.get(urlString = "$POKEDEX_BASE_URL$POKEMON") {
+      parameter(OFFSET, page * PAGING_SIZE)
+      parameter(LIMIT, PAGING_SIZE)
+    }.body()
+  }
 }

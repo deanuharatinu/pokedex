@@ -2,6 +2,7 @@ plugins {
   kotlin("multiplatform")
   id("com.android.library")
   kotlin("plugin.serialization")
+  id("app.cash.sqldelight")
 }
 
 kotlin {
@@ -24,19 +25,24 @@ kotlin {
   }
 
   sourceSets {
-    val mokoMvvmVersion = "0.13.0"
-    val kmmPagingVersion = "0.6.2"
-
     val commonMain by getting {
       dependencies {
-        implementation("io.ktor:ktor-client-core:2.2.4")
-        implementation("io.ktor:ktor-client-serialization:2.2.4")
-        implementation("io.ktor:ktor-client-content-negotiation:2.2.4")
-        implementation("io.ktor:ktor-serialization-kotlinx-json:2.2.4")
-        implementation("io.ktor:ktor-client-logging:2.2.4")
+        with(Ktor) {
+          implementation(clientCore)
+          implementation(clientSerialization)
+          implementation(contentNegotiation)
+          implementation(ktorJson)
+          implementation(clientLogging)
+        }
 
         implementation(Koin.core)
-        implementation(Deps.multiplatformPaging)
+        implementation(SqlDelight.coroutineExt)
+
+        with(Deps) {
+          implementation(multiplatformPaging)
+          implementation(store5)
+          implementation(atomicFu)
+        }
       }
     }
     val commonTest by getting {
@@ -47,8 +53,9 @@ kotlin {
     }
     val androidMain by getting {
       dependencies {
-        implementation("io.ktor:ktor-client-android:2.2.4")
+        implementation(Ktor.clientAndroid)
         implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1")
+        implementation(SqlDelight.android)
       }
     }
     val androidUnitTest by getting
@@ -61,7 +68,8 @@ kotlin {
       iosArm64Main.dependsOn(this)
       iosSimulatorArm64Main.dependsOn(this)
       dependencies {
-        implementation("io.ktor:ktor-client-ios:2.2.4")
+        implementation(Ktor.clientIos)
+        implementation(SqlDelight.ios)
         implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.3-native-mt") {
           version {
             strictly("1.6.3-native-mt")
@@ -87,5 +95,13 @@ android {
   compileSdk = AndroidSdk.compile
   defaultConfig {
     minSdk = AndroidSdk.min
+  }
+}
+
+sqldelight {
+  databases {
+    create("Database") {
+      packageName.set("com.deanuharatinu.pokedex")
+    }
   }
 }
