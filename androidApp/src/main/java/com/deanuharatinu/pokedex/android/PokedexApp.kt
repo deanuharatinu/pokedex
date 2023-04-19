@@ -6,7 +6,7 @@ import coil.ImageLoader
 import coil.ImageLoaderFactory
 import coil.memory.MemoryCache
 import coil.request.CachePolicy
-import com.deanuharatinu.pokedex.initKoin
+import com.deanuharatinu.pokedex.initKoinCommon
 import com.deanuharatinu.pokedex.presentation.HomeViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
@@ -15,7 +15,7 @@ class PokedexApp : Application(), ImageLoaderFactory {
   override fun onCreate() {
     super.onCreate()
 
-    initKoin(
+    initKoinCommon(
       appModule = module {
         single<Context> { this@PokedexApp }
       },

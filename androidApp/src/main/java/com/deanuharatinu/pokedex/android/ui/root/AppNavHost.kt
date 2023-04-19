@@ -12,6 +12,7 @@ import com.deanuharatinu.pokedex.presentation.Screen
 fun AppNavHost(
   navController: NavHostController,
   modifier: Modifier = Modifier,
+  showSnackBar: (String) -> Unit,
 ) {
   NavHost(
     navController = navController,
@@ -19,8 +20,7 @@ fun AppNavHost(
     modifier = modifier,
   ) {
     composable(Screen.Home.route) {
-      HomeView()
+      HomeView(showSnackBar = showSnackBar)
     }
   }
-
 }

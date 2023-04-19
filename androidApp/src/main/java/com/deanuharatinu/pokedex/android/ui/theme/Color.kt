@@ -1,7 +1,8 @@
 package com.deanuharatinu.pokedex.android.ui.theme
 
 import androidx.compose.ui.graphics.Color
+import com.deanuharatinu.pokedex.util.CommonColor
 
-val PrimaryColor = Color(0xFF6200EE)
+val PrimaryColor = Color(CommonColor.colorPrimary)
 val PrimaryColorVariant = Color(0xFF3700B3)
-val ColorAccent = Color(0xFF03DAC5)
+val ColorAccent = Color(CommonColor.colorAccent)

@@ -13,12 +13,15 @@ import com.kuuurt.paging.multiplatform.PagingConfig
 import com.kuuurt.paging.multiplatform.PagingData
 import com.kuuurt.paging.multiplatform.PagingResult
 import com.kuuurt.paging.multiplatform.helpers.cachedIn
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.MainScope
 import org.mobilenativefoundation.store.store5.Fetcher
 import org.mobilenativefoundation.store.store5.StoreBuilder
 import org.mobilenativefoundation.store.store5.impl.extensions.get
 import kotlin.coroutines.CoroutineContext
 
+@OptIn(FlowPreview::class, ExperimentalCoroutinesApi::class)
 class RepositoryCommonImpl(
   private val remoteDataSource: RemoteDataSource,
   private val localDataSource: LocalDataSource,
@@ -38,7 +41,7 @@ class RepositoryCommonImpl(
   val pokemonPager = Pager(
     clientScope = newScope,
     config = pagingConfig,
-    initialKey = 1,
+    initialKey = 0,
     getItems = { currentKey, _ ->
       val pokemonDetail = store.get(currentKey).map { it.asDomain() }
 

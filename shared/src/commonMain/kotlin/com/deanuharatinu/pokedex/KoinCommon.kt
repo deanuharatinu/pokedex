@@ -32,7 +32,7 @@ object Modules {
   }
 }
 
-fun initKoin(
+fun initKoinCommon(
   appModule: Module = module { },
   coreModule: Module = Modules.core,
   repositoriesModule: Module = Modules.repositories,
